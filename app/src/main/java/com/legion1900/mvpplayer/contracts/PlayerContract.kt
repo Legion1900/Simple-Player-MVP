@@ -1,7 +1,5 @@
 package com.legion1900.mvpplayer.contracts
 
-import android.content.Context
-
 object PlayerContract {
     interface View {
         var song: String
@@ -9,10 +7,9 @@ object PlayerContract {
         var genre: String
         fun initPlayer(): ModelPlayer
         /*
-        * Start song chooser Activity.
+        * Should start broadcast receiver if it`s not online and call startActivity.
         * */
         fun startChooser()
-        fun getContext(): Context
     }
 
     interface Presenter {
