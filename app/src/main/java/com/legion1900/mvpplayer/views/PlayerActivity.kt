@@ -8,7 +8,7 @@ import com.legion1900.mvpplayer.R
 import com.legion1900.mvpplayer.contracts.PlayerContract
 import com.legion1900.mvpplayer.presenters.PlayerPresenter
 
-class MainActivity : AppCompatActivity(), PlayerContract.View {
+class PlayerActivity : AppCompatActivity(), PlayerContract.View {
     override var song: CharSequence
         get() = tvSong.text
         set(value) { tvSong.text = value }
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(), PlayerContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_player)
 
         tvSong = findViewById(R.id.tv_song)
         tvMusician = findViewById(R.id.tv_musician)
