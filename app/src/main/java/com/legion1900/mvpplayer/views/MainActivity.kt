@@ -1,9 +1,12 @@
-package com.legion1900.mvpplayer
+package com.legion1900.mvpplayer.views
 
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.legion1900.mvpplayer.R
 import com.legion1900.mvpplayer.contracts.PlayerContract
+import com.legion1900.mvpplayer.presenters.PlayerPresenter
 
 class MainActivity : AppCompatActivity(), PlayerContract.View {
     override var song: CharSequence
@@ -33,11 +36,27 @@ class MainActivity : AppCompatActivity(), PlayerContract.View {
         tvMusician = findViewById(R.id.tv_musician)
         tvGenre = findViewById(R.id.tv_genre)
 
-//        presenter = TODO: instantiate presenter here
+        presenter = PlayerPresenter(this)
     }
 
     override fun initPlayer(): PlayerContract.ModelPlayer {
         TODO("Start player service here.")
+    }
+
+    fun onPlayClick(view: View) {
+        presenter.onPlayBtnClick()
+    }
+
+    fun onPauseClick(view: View) {
+        presenter.onPauseBtnClick()
+    }
+
+    fun onStopClick(view: View) {
+        presenter.onStopBtnClick()
+    }
+
+    fun onChooseSongClick(view: View) {
+        chooseSong()
     }
 
     override fun chooseSong() {

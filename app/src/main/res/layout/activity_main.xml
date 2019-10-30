@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".views.MainActivity">
 
     <TextView
         android:id="@+id/tv_song"
@@ -45,6 +45,7 @@
     <ImageButton
         android:id="@+id/btn_play"
         style="@style/PlayerButton"
+        android:onClick="onPlayClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btn_pause"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,6 +56,7 @@
     <ImageButton
         android:id="@+id/btn_pause"
         style="@style/PlayerButton"
+        android:onClick="onPauseClick"
         app:layout_constraintBottom_toBottomOf="@id/btn_play"
         app:layout_constraintEnd_toEndOf="@id/btn_play"
         app:layout_constraintStart_toStartOf="@id/btn_stop"
@@ -64,6 +66,7 @@
     <ImageButton
         android:id="@+id/btn_stop"
         style="@style/PlayerButton"
+        android:onClick="onStopClick"
         app:layout_constraintBottom_toBottomOf="@id/btn_play"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn_pause"
@@ -71,10 +74,11 @@
         app:srcCompat="@drawable/ic_stop_black_24dp" />
 
     <Button
-        android:text="@string/choose_musician"
-        android:layout_marginBottom="@dimen/margin_mid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_mid"
+        android:onClick="onChooseSongClick"
+        android:text="@string/choose_musician"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
