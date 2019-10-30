@@ -2,9 +2,9 @@ package com.legion1900.mvpplayer.contracts
 
 object PlayerContract {
     interface View {
-        var song: String
-        var musician: String
-        var genre: String
+        var song: CharSequence
+        var musician: CharSequence
+        var genre: CharSequence
         fun initPlayer(): ModelPlayer
         /*
         * Should start broadcast receiver if it`s  offline and call startActivity.
@@ -13,14 +13,11 @@ object PlayerContract {
     }
 
     interface Presenter {
+        val view: View
         fun onPlayBtnClick()
         fun onPauseBtnClick()
         fun onStopBtnClick()
-        fun onSongChanged()
-
-        fun onStart()
-        fun onStop()
-        fun onDestroy()
+        fun onSongChanged(song: ModelSong)
     }
 
     interface ModelSong {
