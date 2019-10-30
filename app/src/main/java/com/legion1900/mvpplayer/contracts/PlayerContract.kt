@@ -7,9 +7,9 @@ object PlayerContract {
         var genre: String
         fun initPlayer(): ModelPlayer
         /*
-        * Should start broadcast receiver if it`s not online and call startActivity.
+        * Should start broadcast receiver if it`s  offline and call startActivity.
         * */
-        fun startChooser()
+        fun chooseSong()
     }
 
     interface Presenter {

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MVP Player</string>
+    <string name="choose_musician">Выбрать исполнителя</string>
 </resources>

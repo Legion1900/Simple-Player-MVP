@@ -7,12 +7,76 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/tv_song"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/tv_musician"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".1"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="The Chain" />
+
+    <TextView
+        android:id="@+id/tv_musician"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@id/tv_genre"
+        app:layout_constraintEnd_toEndOf="@id/tv_song"
+        app:layout_constraintStart_toStartOf="@id/tv_song"
+        app:layout_constraintTop_toBottomOf="@id/tv_song"
+        tools:text="Fleetwood Mac" />
+
+    <TextView
+        android:id="@+id/tv_genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@id/tv_song"
+        app:layout_constraintStart_toStartOf="@id/tv_song"
+        app:layout_constraintTop_toBottomOf="@+id/tv_musician"
+        tools:text="Soft Rock" />
+
+
+    <!--    app:layout_constraintTop_toBottomOf="@id/tv_song"-->
+    <ImageButton
+        android:id="@+id/btn_play"
+        style="@style/PlayerButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_pause"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_genre"
+        app:layout_constraintVertical_bias=".2"
+        app:srcCompat="@drawable/ic_play_arrow_black_24dp" />
+
+    <ImageButton
+        android:id="@+id/btn_pause"
+        style="@style/PlayerButton"
+        app:layout_constraintBottom_toBottomOf="@id/btn_play"
+        app:layout_constraintEnd_toEndOf="@id/btn_play"
+        app:layout_constraintStart_toStartOf="@id/btn_stop"
+        app:layout_constraintTop_toTopOf="@id/btn_play"
+        app:srcCompat="@drawable/ic_pause_black_24dp" />
+
+    <ImageButton
+        android:id="@+id/btn_stop"
+        style="@style/PlayerButton"
+        app:layout_constraintBottom_toBottomOf="@id/btn_play"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_pause"
+        app:layout_constraintTop_toTopOf="@id/btn_play"
+        app:srcCompat="@drawable/ic_stop_black_24dp" />
+
+    <Button
+        android:text="@string/choose_musician"
+        android:layout_marginBottom="@dimen/margin_mid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
