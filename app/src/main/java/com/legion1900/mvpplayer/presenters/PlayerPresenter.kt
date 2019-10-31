@@ -1,10 +1,21 @@
 package com.legion1900.mvpplayer.presenters
 
 import com.legion1900.mvpplayer.contracts.PlayerContract
+import com.legion1900.mvpplayer.models.Song
 
 class PlayerPresenter(override val view: PlayerContract.View) : PlayerContract.Presenter {
 
-    private val player = view.initPlayer()
+    private companion object DefaultData {
+        const val DEFAULT_NAME = "The Chain"
+        const val DEFAULT_MUSICIAN = "Fleetwood Mac"
+        const val DEFAULT_GENRE = "Soft rock"
+        const val DEFAULT_PATH =
+            "android.resource://com.legion1900.simpleplayer/raw/fleetwood_mac_the_chain"
+        val DEFAULT_SONG = Song(DEFAULT_NAME, DEFAULT_MUSICIAN, DEFAULT_GENRE, DEFAULT_PATH)
+    }
+
+    private val repo = view.getRepository()
+    private val player = view.initPlayer(repo.loadLastSong() ?: DEFAULT_SONG)
 
     override fun onPlayBtnClick() {
         player.play()
