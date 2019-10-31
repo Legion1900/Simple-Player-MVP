@@ -1,6 +1,7 @@
 package com.legion1900.mvpplayer.utils
 
 import android.annotation.TargetApi
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -10,13 +11,13 @@ import androidx.core.app.NotificationCompat
 
 @TargetApi(Build.VERSION_CODES.O)
 class ServiceNotificationHelper(
-    private val serviceId: Int,
     private val context: Context,
+    private val serviceId: Int,
     channelId: String,
     channelName: String,
-    importance: Int,
     iconResId: Int,
-    intent: PendingIntent
+    intent: PendingIntent,
+    importance: Int = NotificationManager.IMPORTANCE_DEFAULT
 ) {
     /*
     * Creates notification channel.
@@ -38,12 +39,16 @@ class ServiceNotificationHelper(
         .setSmallIcon(iconResId)
         .setContentIntent(intent)
 
-    fun updateNotification(songName: String, text: String) {
-        builder.setContentTitle(songName)
-            .setContentText(text)
-        val newNotification = builder.build()
+    fun updateNotification(title: String, text: String) {
+        val notification = buildNotification(title, text)
         val manager =
             context.getSystemService<NotificationManager>(NotificationManager::class.java)
-        manager?.notify(serviceId, newNotification)
+        manager?.notify(serviceId, notification)
+    }
+
+    fun buildNotification(title: String, text: String): Notification {
+        builder.setContentTitle(title)
+            .setContentText(text)
+        return builder.build()
     }
 }

@@ -1,4 +1,4 @@
-package com.legion1900.mvpplayer
+package com.legion1900.mvpplayer.models
 
 import android.app.PendingIntent
 import android.app.Service
@@ -6,6 +6,7 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Binder
 import android.os.IBinder
+import com.legion1900.mvpplayer.R
 import com.legion1900.mvpplayer.contracts.PlayerContract
 import com.legion1900.mvpplayer.utils.ServiceNotificationHelper
 import com.legion1900.mvpplayer.views.PlayerActivity
