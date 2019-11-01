@@ -16,6 +16,7 @@ class PlayerPresenter private constructor(override var view: PlayerContract.View
         val DEFAULT_SONG = Song(DEFAULT_NAME, DEFAULT_MUSICIAN, DEFAULT_GENRE, DEFAULT_PATH)
 
         private var presenter: PlayerContract.Presenter? = null
+
         fun getPresenter(view: PlayerContract.View): PlayerContract.Presenter {
             if (presenter == null)
                 presenter = PlayerPresenter(view)
@@ -24,15 +25,14 @@ class PlayerPresenter private constructor(override var view: PlayerContract.View
         }
     }
 
-
-//    TODO: set PlayerActivity view`s text
-
     private val repo = view.getRepository()
 
     init {
         val song = repo.loadLastSong() ?: DEFAULT_SONG
-        Log.d("test", song.toString())
         view.initPlatform(song)
+        view.song = song.name
+        view.musician = song.musician
+        view.genre = song.genre
     }
 
     override lateinit var player: PlayerContract.ModelPlayer
@@ -55,5 +55,4 @@ class PlayerPresenter private constructor(override var view: PlayerContract.View
         player.song = song
         repo.saveLastSong(song)
     }
-
 }

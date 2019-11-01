@@ -16,6 +16,13 @@ import com.legion1900.mvpplayer.models.StateRepository
 import com.legion1900.mvpplayer.presenters.PlayerPresenter
 
 class PlayerActivity : AppCompatActivity(), PlayerContract.View {
+
+    companion object {
+        const val KEY_SONG = "song"
+        const val KEY_MUSICIAN = "musician"
+        const val KEY_GENRE = "genre"
+    }
+
     override var song: CharSequence
         get() = tvSong.text
         set(value) {
@@ -61,14 +68,22 @@ class PlayerActivity : AppCompatActivity(), PlayerContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
-
-        tvSong = findViewById(R.id.tv_song)
-        tvMusician = findViewById(R.id.tv_musician)
-        tvGenre = findViewById(R.id.tv_genre)
+        initViews(savedInstanceState)
 
         playerIntent = Intent(this, PlayerService::class.java)
 
         presenter = PlayerPresenter.getPresenter(this)
+    }
+
+    private fun initViews(state: Bundle?) {
+        tvSong = findViewById(R.id.tv_song)
+        tvMusician = findViewById(R.id.tv_musician)
+        tvGenre = findViewById(R.id.tv_genre)
+        state?.run {
+            song = getCharSequence(KEY_SONG)!!
+            musician = getCharSequence(KEY_MUSICIAN)!!
+            genre = getCharSequence(KEY_GENRE)!!
+        }
     }
 
     override fun onStart() {
@@ -83,6 +98,13 @@ class PlayerActivity : AppCompatActivity(), PlayerContract.View {
             unbindService(connection)
             connection.bound = false
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putCharSequence(KEY_SONG, song)
+        outState.putCharSequence(KEY_MUSICIAN, musician)
+        outState.putCharSequence(KEY_GENRE, genre)
     }
 
     override fun getRepository(): PlayerContract.Repository {
