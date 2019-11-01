@@ -30,6 +30,10 @@ class PlayerPresenter private constructor(override var view: PlayerContract.View
     init {
         val song = repo.loadLastSong() ?: DEFAULT_SONG
         view.initPlatform(song)
+        updateView(song)
+    }
+
+    private fun updateView(song: PlayerContract.ModelSong) {
         view.song = song.name
         view.musician = song.musician
         view.genre = song.genre
@@ -53,6 +57,7 @@ class PlayerPresenter private constructor(override var view: PlayerContract.View
 
     override fun onSongChanged(song: PlayerContract.ModelSong) {
         player.song = song
+        updateView(song)
         repo.saveLastSong(song)
     }
 }

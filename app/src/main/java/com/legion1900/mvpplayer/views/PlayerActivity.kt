@@ -1,9 +1,6 @@
 package com.legion1900.mvpplayer.views
 
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
+import android.content.*
 import android.os.Bundle
 import android.os.IBinder
 import android.view.View
@@ -12,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.legion1900.mvpplayer.R
 import com.legion1900.mvpplayer.contracts.PlayerContract
 import com.legion1900.mvpplayer.models.PlayerService
+import com.legion1900.mvpplayer.models.Song
 import com.legion1900.mvpplayer.models.StateRepository
 import com.legion1900.mvpplayer.presenters.PlayerPresenter
 
@@ -21,6 +19,9 @@ class PlayerActivity : AppCompatActivity(), PlayerContract.View {
         const val KEY_SONG = "song"
         const val KEY_MUSICIAN = "musician"
         const val KEY_GENRE = "genre"
+
+        const val ACTION_SONG_SENT = "Song sent"
+        const val SONG_PATH_KEY = "path"
     }
 
     override var song: CharSequence
@@ -63,7 +64,12 @@ class PlayerActivity : AppCompatActivity(), PlayerContract.View {
         }
     }
 
-//    TODO: implement BroadcastReceiver here (anonymously)
+    private val receiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val song = intent.getParcelableExtra<Song>(SONG_PATH_KEY)
+            presenter.onSongChanged(song)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,8 +119,18 @@ class PlayerActivity : AppCompatActivity(), PlayerContract.View {
     }
 
     override fun initPlatform(song: PlayerContract.ModelSong) {
+        initService(song)
+        initReceiver()
+    }
+
+    private fun initService(song: PlayerContract.ModelSong) {
         playerIntent.putExtra(PlayerContract.EXTRA_SONG, song)
         startService(playerIntent)
+    }
+
+    private fun initReceiver() {
+        val filter = IntentFilter(ACTION_SONG_SENT)
+        registerReceiver(receiver, filter)
     }
 
     fun onPlayClick(view: View) {
