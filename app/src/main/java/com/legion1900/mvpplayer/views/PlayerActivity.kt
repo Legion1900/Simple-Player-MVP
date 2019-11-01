@@ -84,7 +84,7 @@ class PlayerActivity : AppCompatActivity(), PlayerContract.View {
         return StateRepository(getSharedPreferences(PlayerContract.REPO_KEY, Context.MODE_PRIVATE))
     }
 
-    override fun initPlayer(song: PlayerContract.ModelSong) {
+    override fun initPlatform(song: PlayerContract.ModelSong) {
         playerIntent.putExtra(PlayerContract.EXTRA_SONG, song)
         startService(playerIntent)
     }

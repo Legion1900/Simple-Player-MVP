@@ -17,7 +17,7 @@ class PlayerPresenter(override val view: PlayerContract.View) : PlayerContract.P
     private val repo = view.getRepository()
 
     init {
-        view.initPlayer(repo.loadLastSong() ?: DEFAULT_SONG)
+        view.initPlatform(repo.loadLastSong() ?: DEFAULT_SONG)
     }
 
     override lateinit var player: PlayerContract.ModelPlayer

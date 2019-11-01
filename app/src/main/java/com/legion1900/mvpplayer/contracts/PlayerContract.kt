@@ -16,7 +16,7 @@ object PlayerContract {
         * Platform-specific init calls should be placed here.
         * Must set song property of Presenter.
         * */
-        fun initPlayer(song: ModelSong)
+        fun initPlatform(song: ModelSong)
         /*
         * Should start broadcast receiver if it`s  offline and call startActivity.
         * */
