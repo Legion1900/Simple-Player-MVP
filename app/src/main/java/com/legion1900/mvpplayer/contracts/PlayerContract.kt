@@ -15,7 +15,7 @@ object PlayerContract {
         /*
         * Platform-specific init calls should be placed here.
         * */
-        fun initPlayer(song: ModelSong): ModelPlayer
+        fun initPlayer(song: ModelSong)
         /*
         * Should start broadcast receiver if it`s  offline and call startActivity.
         * */
@@ -24,6 +24,7 @@ object PlayerContract {
 
     interface Presenter {
         val view: View
+        val player: ModelPlayer
         fun onPlayBtnClick()
         fun onPauseBtnClick()
         fun onStopBtnClick()
