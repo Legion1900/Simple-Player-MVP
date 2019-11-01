@@ -111,6 +111,6 @@ class PlayerActivity : AppCompatActivity(), PlayerContract.View {
     }
 
     override fun chooseSong() {
-        TODO("Start broadcast receiver and chooser activity.")
+        TODO("Think about deletion of this method from Contract")
     }
 }

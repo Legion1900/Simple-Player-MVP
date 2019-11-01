@@ -20,8 +20,6 @@ private const val SERVICE_ID = 42
 
 class PlayerService : Service(), PlayerContract.ModelPlayer {
 
-
-//    TODO: player stops on rotation because of this setter (it is called on activity creation)
     override var song: PlayerContract.ModelSong? = null
         set(value) {
             isPlaying = false
