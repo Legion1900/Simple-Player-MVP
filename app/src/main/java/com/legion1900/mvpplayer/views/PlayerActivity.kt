@@ -10,10 +10,10 @@ import com.legion1900.mvpplayer.R
 import com.legion1900.mvpplayer.contracts.PlayerContract
 import com.legion1900.mvpplayer.models.PlayerService
 import com.legion1900.mvpplayer.models.Song
-import com.legion1900.mvpplayer.models.StateRepository
+import com.legion1900.mvpplayer.models.SongStateRepository
 import com.legion1900.mvpplayer.presenters.PlayerPresenter
 
-class PlayerActivity : AppCompatActivity(), PlayerContract.View {
+class PlayerActivity : AppCompatActivity(), PlayerContract.PlayerView {
 
     companion object {
         const val KEY_SONG = "song"
@@ -113,9 +113,9 @@ class PlayerActivity : AppCompatActivity(), PlayerContract.View {
         outState.putCharSequence(KEY_GENRE, genre)
     }
 
-    override fun getRepository(): PlayerContract.Repository {
+    override fun getRepository(): PlayerContract.SongStateRepository {
         val repo = getSharedPreferences(PlayerContract.REPO_KEY, Context.MODE_PRIVATE)
-        return StateRepository(repo)
+        return SongStateRepository(repo)
     }
 
     override fun initPlatform(song: PlayerContract.ModelSong) {

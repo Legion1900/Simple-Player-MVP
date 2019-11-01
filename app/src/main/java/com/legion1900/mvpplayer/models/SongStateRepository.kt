@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.legion1900.mvpplayer.contracts.PlayerContract
 
-class StateRepository(private val pref: SharedPreferences) : PlayerContract.Repository {
+class SongStateRepository(private val pref: SharedPreferences) : PlayerContract.SongStateRepository {
 
     private companion object SharedPrefKeys {
         const val SONG = "song"

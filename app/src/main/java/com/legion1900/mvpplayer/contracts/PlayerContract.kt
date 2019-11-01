@@ -6,11 +6,11 @@ object PlayerContract {
     const val EXTRA_SONG = "ModelSong"
     const val REPO_KEY = "Previous ModelSong"
 
-    interface View {
+    interface PlayerView {
         var song: CharSequence
         var musician: CharSequence
         var genre: CharSequence
-        fun getRepository(): Repository
+        fun getRepository(): SongStateRepository
         /*
         * Platform-specific init calls should be placed here.
         * Must set song property of Presenter.
@@ -18,8 +18,15 @@ object PlayerContract {
         fun initPlatform(song: ModelSong)
     }
 
+    interface ChooserView {
+        var musicians: List<String>
+        var genres: List<String>
+        var song: List<ModelSong>
+        fun getRepository(): SongsRepository
+    }
+
     interface Presenter {
-        var view: View
+        var view: PlayerView
         var player: ModelPlayer
         fun onPlayBtnClick()
         fun onPauseBtnClick()
@@ -38,9 +45,13 @@ object PlayerContract {
     /*
     * Represents last song loader.
     * */
-    interface Repository {
+    interface SongStateRepository {
         fun loadLastSong(): ModelSong?
         fun saveLastSong(song: ModelSong)
+    }
+
+    interface SongsRepository {
+//        TODO: think about signatures
     }
 
     interface ModelPlayer {

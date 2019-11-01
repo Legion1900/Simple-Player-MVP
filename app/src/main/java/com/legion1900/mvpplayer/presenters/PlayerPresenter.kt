@@ -1,10 +1,9 @@
 package com.legion1900.mvpplayer.presenters
 
-import android.util.Log
 import com.legion1900.mvpplayer.contracts.PlayerContract
 import com.legion1900.mvpplayer.models.Song
 
-class PlayerPresenter private constructor(override var view: PlayerContract.View) :
+class PlayerPresenter private constructor(override var view: PlayerContract.PlayerView) :
     PlayerContract.Presenter {
 
     companion object {
@@ -17,7 +16,7 @@ class PlayerPresenter private constructor(override var view: PlayerContract.View
 
         private var presenter: PlayerContract.Presenter? = null
 
-        fun getPresenter(view: PlayerContract.View): PlayerContract.Presenter {
+        fun getPresenter(view: PlayerContract.PlayerView): PlayerContract.Presenter {
             if (presenter == null)
                 presenter = PlayerPresenter(view)
             else presenter?.view = view

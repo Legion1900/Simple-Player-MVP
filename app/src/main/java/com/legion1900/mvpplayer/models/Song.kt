@@ -3,9 +3,8 @@ package com.legion1900.mvpplayer.models
 import android.os.Parcel
 import android.os.Parcelable
 import com.legion1900.mvpplayer.contracts.PlayerContract
-import java.lang.StringBuilder
 
-class Song(
+data class Song(
     override val name: String,
     override val musician: String,
     override val genre: String,
@@ -31,10 +30,6 @@ class Song(
 
     override fun describeContents(): Int {
         return 0
-    }
-
-    override fun toString(): String {
-        return "Song=(name=$name, musician=$musician, genre=$genre, time=$time, path=$path)"
     }
 
     companion object CREATOR : Parcelable.Creator<Song> {
