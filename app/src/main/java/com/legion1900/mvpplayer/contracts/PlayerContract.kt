@@ -1,6 +1,5 @@
 package com.legion1900.mvpplayer.contracts
 
-import android.content.SharedPreferences
 import android.os.Parcelable
 
 object PlayerContract {

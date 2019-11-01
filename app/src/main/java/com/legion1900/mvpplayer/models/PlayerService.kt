@@ -24,8 +24,10 @@ class PlayerService : Service(), PlayerContract.ModelPlayer {
             isPlaying = false
             field = value
             player.reset()
-            player.setDataSource(this, Uri.parse(song?.path))
-            song?.run { notificationHelper.updateNotification(name, musician) }
+            field?.run {
+                player.setDataSource(this@PlayerService, Uri.parse(path))
+                notificationHelper.updateNotification(name, musician)
+            }
             preparePlayer()
         }
 
@@ -35,6 +37,7 @@ class PlayerService : Service(), PlayerContract.ModelPlayer {
     private val executor = Executors.newSingleThreadExecutor()
     private val preparePlayer = Runnable {
         player.prepare()
+        player.seekTo(song!!.time)
     }
 
     private lateinit var notificationHelper: ServiceNotificationHelper
@@ -76,13 +79,16 @@ class PlayerService : Service(), PlayerContract.ModelPlayer {
 
     override fun pause() {
         if (isPlaying) {
-            isPlaying = false
             player.pause()
+            isPlaying = false
+            song?.time = player.currentPosition
         }
     }
 
     override fun stop() {
         player.stop()
+        isPlaying = false
+        song?.time = 0
         preparePlayer()
     }
 

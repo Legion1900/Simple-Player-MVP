@@ -1,5 +1,6 @@
 package com.legion1900.mvpplayer.presenters
 
+import android.util.Log
 import com.legion1900.mvpplayer.contracts.PlayerContract
 import com.legion1900.mvpplayer.models.Song
 
@@ -29,7 +30,9 @@ class PlayerPresenter private constructor(override var view: PlayerContract.View
     private val repo = view.getRepository()
 
     init {
-        view.initPlatform(repo.loadLastSong() ?: DEFAULT_SONG)
+        val song = repo.loadLastSong() ?: DEFAULT_SONG
+        Log.d("test", song.toString())
+        view.initPlatform(song)
     }
 
     override lateinit var player: PlayerContract.ModelPlayer
@@ -40,14 +43,17 @@ class PlayerPresenter private constructor(override var view: PlayerContract.View
 
     override fun onPauseBtnClick() {
         player.pause()
+        repo.saveLastSong(player.song!!)
     }
 
     override fun onStopBtnClick() {
         player.stop()
+        repo.saveLastSong(player.song!!)
     }
 
     override fun onSongChanged(song: PlayerContract.ModelSong) {
         player.song = song
+        repo.saveLastSong(song)
     }
 
 }
