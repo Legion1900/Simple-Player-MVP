@@ -6,8 +6,6 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
-import android.os.PersistableBundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -50,6 +48,9 @@ class PlayerActivity : AppCompatActivity(), PlayerContract.View {
             presenter.player = (service as PlayerService.PlayerBinder).getPlayer()
         }
 
+        /*
+        * Only gets called when process hosting service crashed or been killed!!
+        * */
         override fun onServiceDisconnected(name: ComponentName?) {
             bound = false
         }
@@ -70,8 +71,6 @@ class PlayerActivity : AppCompatActivity(), PlayerContract.View {
         presenter = PlayerPresenter.getPresenter(this)
     }
 
-//    TODO: fix 'Unable to stop activity.'
-
     override fun onStart() {
         super.onStart()
         if (!connection.bound)
@@ -80,8 +79,10 @@ class PlayerActivity : AppCompatActivity(), PlayerContract.View {
 
     override fun onStop() {
         super.onStop()
-        if (connection.bound)
+        if (connection.bound) {
             unbindService(connection)
+            connection.bound = false
+        }
     }
 
     override fun getRepository(): PlayerContract.Repository {
@@ -107,10 +108,6 @@ class PlayerActivity : AppCompatActivity(), PlayerContract.View {
     }
 
     fun onChooseSongClick(view: View) {
-        chooseSong()
-    }
-
-    override fun chooseSong() {
-        TODO("Think about deletion of this method from Contract")
+//        TODO: wire up ChooserActivity call
     }
 }

@@ -17,10 +17,6 @@ object PlayerContract {
         * Must set song property of Presenter.
         * */
         fun initPlatform(song: ModelSong)
-        /*
-        * Should start broadcast receiver if it`s  offline and call startActivity.
-        * */
-        fun chooseSong()
     }
 
     interface Presenter {

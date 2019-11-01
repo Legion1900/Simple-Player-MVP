@@ -7,7 +7,6 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Binder
 import android.os.IBinder
-import android.util.Log
 import com.legion1900.mvpplayer.R
 import com.legion1900.mvpplayer.contracts.PlayerContract
 import com.legion1900.mvpplayer.utils.ServiceNotificationHelper
@@ -55,7 +54,6 @@ class PlayerService : Service(), PlayerContract.ModelPlayer {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d("Test", "onStartCommand call")
         intent?.run {
             song = getParcelableExtra(PlayerContract.EXTRA_SONG)
         }
