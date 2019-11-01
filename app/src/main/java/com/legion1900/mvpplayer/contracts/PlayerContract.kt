@@ -14,6 +14,7 @@ object PlayerContract {
         fun getRepository(): Repository
         /*
         * Platform-specific init calls should be placed here.
+        * Must set song property of Presenter.
         * */
         fun initPlayer(song: ModelSong)
         /*
@@ -24,7 +25,7 @@ object PlayerContract {
 
     interface Presenter {
         val view: View
-        val player: ModelPlayer
+        var player: ModelPlayer
         fun onPlayBtnClick()
         fun onPauseBtnClick()
         fun onStopBtnClick()

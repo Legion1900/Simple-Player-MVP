@@ -7,6 +7,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
+import androidx.annotation.IdRes
 import androidx.core.app.NotificationCompat
 
 @TargetApi(Build.VERSION_CODES.O)
@@ -15,7 +16,7 @@ class ServiceNotificationHelper(
     private val serviceId: Int,
     channelId: String,
     channelName: String,
-    iconResId: Int,
+    @IdRes iconResId: Int,
     intent: PendingIntent,
     importance: Int = NotificationManager.IMPORTANCE_DEFAULT
 ) {
