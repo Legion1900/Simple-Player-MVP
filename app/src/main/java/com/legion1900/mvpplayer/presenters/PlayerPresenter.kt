@@ -15,7 +15,7 @@ class PlayerPresenter(override val view: PlayerContract.View) : PlayerContract.P
     }
 
     private val repo = view.getRepository()
-    private val player = view.initPlayer(repo.loadLastSong() ?: DEFAULT_SONG)
+    override lateinit var player: PlayerContract.ModelPlayer
 
     override fun onPlayBtnClick() {
         player.play()
