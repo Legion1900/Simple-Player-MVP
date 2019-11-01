@@ -20,6 +20,8 @@ private const val SERVICE_ID = 42
 
 class PlayerService : Service(), PlayerContract.ModelPlayer {
 
+
+//    TODO: player stops on rotation because of this setter (it is called on activity creation)
     override var song: PlayerContract.ModelSong? = null
         set(value) {
             isPlaying = false
@@ -35,9 +37,7 @@ class PlayerService : Service(), PlayerContract.ModelPlayer {
     private val player = MediaPlayer()
     private val executor = Executors.newSingleThreadExecutor()
     private val preparePlayer = Runnable {
-        Log.d("Test", "Player preparing.")
         player.prepare()
-        Log.d("Test", "Player is ready.")
     }
 
     private lateinit var notificationHelper: ServiceNotificationHelper
@@ -57,10 +57,15 @@ class PlayerService : Service(), PlayerContract.ModelPlayer {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        Log.d("Test", "onStartCommand call")
         intent?.run {
             song = getParcelableExtra(PlayerContract.EXTRA_SONG)
         }
-        return super.onStartCommand(intent, flags, startId)
+        song?.run {
+            val notification = notificationHelper.buildNotification(name, musician)
+            startForeground(SERVICE_ID, notification)
+        }
+        return START_STICKY
     }
 
     private fun buildPendingIntent(): PendingIntent {
@@ -81,8 +86,7 @@ class PlayerService : Service(), PlayerContract.ModelPlayer {
     }
 
     override fun stop() {
-        stop()
-        song?.time = 0
+        player.stop()
         preparePlayer()
     }
 

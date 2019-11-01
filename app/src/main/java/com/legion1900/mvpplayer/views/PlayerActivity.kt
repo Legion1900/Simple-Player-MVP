@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
+import android.os.PersistableBundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -65,8 +67,10 @@ class PlayerActivity : AppCompatActivity(), PlayerContract.View {
 
         playerIntent = Intent(this, PlayerService::class.java)
 
-        presenter = PlayerPresenter(this)
+        presenter = PlayerPresenter.getPresenter(this)
     }
+
+//    TODO: fix 'Unable to stop activity.'
 
     override fun onStart() {
         super.onStart()
@@ -81,7 +85,8 @@ class PlayerActivity : AppCompatActivity(), PlayerContract.View {
     }
 
     override fun getRepository(): PlayerContract.Repository {
-        return StateRepository(getSharedPreferences(PlayerContract.REPO_KEY, Context.MODE_PRIVATE))
+        val repo = getSharedPreferences(PlayerContract.REPO_KEY, Context.MODE_PRIVATE)
+        return StateRepository(repo)
     }
 
     override fun initPlatform(song: PlayerContract.ModelSong) {

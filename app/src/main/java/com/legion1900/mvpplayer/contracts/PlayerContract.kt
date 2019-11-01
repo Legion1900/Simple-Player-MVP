@@ -24,7 +24,7 @@ object PlayerContract {
     }
 
     interface Presenter {
-        val view: View
+        var view: View
         var player: ModelPlayer
         fun onPlayBtnClick()
         fun onPauseBtnClick()
