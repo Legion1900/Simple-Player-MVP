@@ -4,8 +4,10 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Binder
 import android.os.IBinder
+import android.util.Log
 import com.legion1900.mvpplayer.R
 import com.legion1900.mvpplayer.contracts.PlayerContract
 import com.legion1900.mvpplayer.utils.ServiceNotificationHelper
@@ -23,9 +25,9 @@ class PlayerService : Service(), PlayerContract.ModelPlayer {
             isPlaying = false
             field = value
             player.reset()
-            player.setDataSource(song?.path)
-            preparePlayer()
+            player.setDataSource(this, Uri.parse(song?.path))
             song?.run { notificationHelper.updateNotification(name, musician) }
+            preparePlayer()
         }
 
     private var isPlaying: Boolean = false
@@ -33,7 +35,9 @@ class PlayerService : Service(), PlayerContract.ModelPlayer {
     private val player = MediaPlayer()
     private val executor = Executors.newSingleThreadExecutor()
     private val preparePlayer = Runnable {
+        Log.d("Test", "Player preparing.")
         player.prepare()
+        Log.d("Test", "Player is ready.")
     }
 
     private lateinit var notificationHelper: ServiceNotificationHelper
@@ -78,6 +82,7 @@ class PlayerService : Service(), PlayerContract.ModelPlayer {
 
     override fun stop() {
         stop()
+        song?.time = 0
         preparePlayer()
     }
 

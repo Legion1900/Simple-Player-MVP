@@ -9,7 +9,7 @@ class Song(
     override val musician: String,
     override val genre: String,
     override val path: String,
-    override val time: Int = 0
+    override var time: Int = 0
 ) : PlayerContract.ModelSong {
 
     constructor(parcel: Parcel) : this(

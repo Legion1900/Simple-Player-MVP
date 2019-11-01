@@ -16,7 +16,7 @@ class ServiceNotificationHelper(
     private val serviceId: Int,
     channelId: String,
     channelName: String,
-    @IdRes iconResId: Int,
+    iconResId: Int,
     intent: PendingIntent,
     importance: Int = NotificationManager.IMPORTANCE_DEFAULT
 ) {

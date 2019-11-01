@@ -10,7 +10,7 @@ class PlayerPresenter(override val view: PlayerContract.View) : PlayerContract.P
         const val DEFAULT_MUSICIAN = "Fleetwood Mac"
         const val DEFAULT_GENRE = "Soft rock"
         const val DEFAULT_PATH =
-            "android.resource://com.legion1900.simpleplayer/raw/fleetwood_mac_the_chain"
+            "android.resource://com.legion1900.mvpplayer/raw/fleetwood_mac_the_chain"
         val DEFAULT_SONG = Song(DEFAULT_NAME, DEFAULT_MUSICIAN, DEFAULT_GENRE, DEFAULT_PATH)
     }
 

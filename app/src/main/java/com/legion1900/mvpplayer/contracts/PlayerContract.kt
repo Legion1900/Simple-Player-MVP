@@ -37,7 +37,7 @@ object PlayerContract {
         val musician: String
         val genre: String
         val path: String
-        val time: Int
+        var time: Int
     }
 
     /*
