@@ -3,9 +3,11 @@ package com.legion1900.mvpplayer.models
 import android.content.ContentResolver
 import android.database.Cursor
 import android.net.Uri
+import android.util.Log
 import com.legion1900.mvpplayer.contracts.PlayerContract
 import com.legion1900.mvpplayer.models.data.Song
 import com.legion1900.mvpplayer.platform.utils.db.TracksContract
+import java.util.*
 
 class SongsRepository(private val resolver: ContentResolver) : PlayerContract.SongsRepository {
 
@@ -17,15 +19,21 @@ class SongsRepository(private val resolver: ContentResolver) : PlayerContract.So
 
     private fun getAllRows(uri: Uri, column: String): List<String> {
         val projection = arrayOf(column)
-        return resolver.query(uri, projection, null, null, null)
-            ?.use {
+//        TODO: null instead of Cursor
+
+        Log.d("Test", "uri=$uri")
+        Log.d("Test", "projection=${projection.contentToString()}")
+
+        val cursor = resolver.query(uri, projection, null, null, null)
+        val test = cursor?.use {
                 val colIndex = it.getColumnIndex(column)
                 val musicians = mutableListOf<String>()
                 while (it.moveToNext()) {
                     musicians.add(it.getString(colIndex))
                 }
                 musicians
-            }!!
+            }
+        return test!!
     }
 
     override fun sortByMusician(musician: String): List<PlayerContract.ModelSong> =
@@ -56,13 +64,13 @@ class SongsRepository(private val resolver: ContentResolver) : PlayerContract.So
     }
 
     private companion object {
-        val URI_GENRES: Uri = Uri.parse("content://com.legion1900.simpleplayer.provider/Genres")
+        val URI_GENRES: Uri = Uri.parse("content://com.legion1900.mvpplayer.provider/Genres")
         val URI_MUSICIANS: Uri =
-            Uri.parse("content://com.legion1900.simpleplayer.provider/Musicians")
+            Uri.parse("content://com.legion1900.mvpplayer.provider/Musicians")
         val URI_SORT_GENRE: Uri =
-            Uri.parse("content://com.legion1900.simpleplayer.provider/Song/genre")
+            Uri.parse("content://com.legion1900.mvpplayer.provider/Song/genre")
         val URI_SORT_MUSICIAN: Uri =
-            Uri.parse("content://com.legion1900.simpleplayer.provider/Song/musician")
+            Uri.parse("content://com.legion1900.mvpplayer.provider/Song/musician")
 
         const val SONG_COLUMN = "song"
         const val MUSICIAN_COLUMN = "musician"

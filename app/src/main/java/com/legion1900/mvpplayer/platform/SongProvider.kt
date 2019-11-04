@@ -31,6 +31,7 @@ class SongProvider : ContentProvider() {
         return true
     }
 
+//    TODO: DO NOT CLOSE DATABASE UNTIL CURSOR ALIVE
     override fun query(
         uri: Uri, projection: Array<String>?, selection: String?,
         selectionArgs: Array<String>?, sortOrder: String?

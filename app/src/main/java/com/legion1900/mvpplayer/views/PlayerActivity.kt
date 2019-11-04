@@ -146,6 +146,7 @@ class PlayerActivity : AppCompatActivity(), PlayerContract.PlayerView {
     }
 
     fun onChooseSongClick(view: View) {
-//        TODO: wire up ChooserActivity call
+        val intent = Intent(this, ChooserActivity::class.java)
+        startActivity(intent)
     }
 }

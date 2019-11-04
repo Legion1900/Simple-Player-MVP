@@ -17,12 +17,14 @@ class ChooserPresenter private constructor(override var view: PlayerContract.Cho
 
     override fun onGenreClick(genre: String) {
         songs = repo.sortByGenre(genre)
-        view.songs = SongData.readSongData(songs, PlayerContract.ModelSong::musician)
+        val data = SongData.readSongData(songs, PlayerContract.ModelSong::musician)
+        view.displaySongs(data)
     }
 
     override fun onMusicianClick(musician: String) {
         songs = repo.sortByMusician(musician)
-        view.songs = SongData.readSongData(songs, PlayerContract.ModelSong::genre)
+        val data = SongData.readSongData(songs, PlayerContract.ModelSong::genre)
+        view.displaySongs(data)
     }
 
     override fun onSongClick(index: Int) {
