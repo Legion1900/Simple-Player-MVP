@@ -1,4 +1,4 @@
-package com.legion1900.mvpplayer.models
+package com.legion1900.mvpplayer.models.data
 
 import android.os.Parcel
 import android.os.Parcelable

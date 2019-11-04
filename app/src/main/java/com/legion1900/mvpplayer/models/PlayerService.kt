@@ -13,10 +13,6 @@ import com.legion1900.mvpplayer.platform.utils.ServiceNotificationHelper
 import com.legion1900.mvpplayer.views.PlayerActivity
 import java.util.concurrent.Executors
 
-private const val CHANNEL_NAME = "Player"
-private const val CHANNEL_ID = "com.legion1900.mvpplayer"
-private const val SERVICE_ID = 42
-
 class PlayerService : Service(), PlayerContract.ModelPlayer {
 
     override var song: PlayerContract.ModelSong? = null
@@ -100,5 +96,11 @@ class PlayerService : Service(), PlayerContract.ModelPlayer {
 
     inner class PlayerBinder : Binder() {
         fun getPlayer(): PlayerContract.ModelPlayer = this@PlayerService
+    }
+
+    private companion object {
+        const val CHANNEL_NAME = "Player"
+        const val CHANNEL_ID = "com.legion1900.mvpplayer"
+        const val SERVICE_ID = 42
     }
 }

@@ -1,7 +1,7 @@
 package com.legion1900.mvpplayer.presenters
 
 import com.legion1900.mvpplayer.contracts.PlayerContract
-import com.legion1900.mvpplayer.models.Song
+import com.legion1900.mvpplayer.models.data.Song
 
 class PlayerPresenter private constructor(override var view: PlayerContract.PlayerView) :
     PlayerContract.PlayerPresenter {
@@ -12,7 +12,12 @@ class PlayerPresenter private constructor(override var view: PlayerContract.Play
         private const val DEFAULT_GENRE = "Soft rock"
         private const val DEFAULT_PATH =
             "android.resource://com.legion1900.mvpplayer/raw/fleetwood_mac_the_chain"
-        val DEFAULT_SONG = Song(DEFAULT_NAME, DEFAULT_MUSICIAN, DEFAULT_GENRE, DEFAULT_PATH)
+        val DEFAULT_SONG = Song(
+            DEFAULT_NAME,
+            DEFAULT_MUSICIAN,
+            DEFAULT_GENRE,
+            DEFAULT_PATH
+        )
 
         private var presenter: PlayerContract.PlayerPresenter? = null
 

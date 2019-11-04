@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.legion1900.mvpplayer.R
 import com.legion1900.mvpplayer.contracts.PlayerContract
 import com.legion1900.mvpplayer.models.PlayerService
-import com.legion1900.mvpplayer.models.Song
+import com.legion1900.mvpplayer.models.data.Song
 import com.legion1900.mvpplayer.models.SongStateRepository
 import com.legion1900.mvpplayer.presenters.PlayerPresenter
 

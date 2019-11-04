@@ -3,6 +3,7 @@ package com.legion1900.mvpplayer.models
 import android.content.SharedPreferences
 import android.util.Log
 import com.legion1900.mvpplayer.contracts.PlayerContract
+import com.legion1900.mvpplayer.models.data.Song
 
 class SongStateRepository(private val pref: SharedPreferences) : PlayerContract.SongStateRepository {
 
