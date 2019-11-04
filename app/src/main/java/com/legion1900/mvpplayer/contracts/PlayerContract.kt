@@ -24,9 +24,13 @@ object PlayerContract {
         var songs: List<ModelSong>
         fun getRepository(): SongsRepository
         /*
-        * Should contain platform-dependent calls for broadcasting chosen song.
+        * Should contain platform-specific calls for broadcasting chosen song.
         * */
-        fun choose(song: ModelSong)
+        fun sendSong(song: ModelSong)
+        /*
+        * Should perform platform-specific calls for closing this view.
+        * */
+        fun close()
     }
 
     interface PlayerPresenter {
@@ -39,9 +43,10 @@ object PlayerContract {
     }
 
     interface ChooserPresenter {
+        var view: ChooserView
         fun onGenreClick(genre: String)
         fun onMusicianClick(musician: String)
-        fun onSongClick(song: String)
+        fun onSongClick(song: ModelSong)
     }
 
     interface ModelSong : Parcelable {
