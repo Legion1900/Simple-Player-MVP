@@ -1,4 +1,4 @@
-package com.legion1900.mvpplayer.utils
+package com.legion1900.mvpplayer.platform.utils
 
 import android.annotation.TargetApi
 import android.app.Notification
@@ -7,7 +7,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
-import androidx.annotation.IdRes
 import androidx.core.app.NotificationCompat
 
 @TargetApi(Build.VERSION_CODES.O)

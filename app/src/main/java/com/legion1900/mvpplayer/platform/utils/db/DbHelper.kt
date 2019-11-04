@@ -1,4 +1,4 @@
-package com.legion1900.mvpplayer.utils.db
+package com.legion1900.mvpplayer.platform.utils.db
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase

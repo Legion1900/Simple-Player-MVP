@@ -5,8 +5,8 @@ import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
-import com.legion1900.mvpplayer.utils.db.DbHelper
-import com.legion1900.mvpplayer.utils.db.TracksContract
+import com.legion1900.mvpplayer.platform.utils.db.DbHelper
+import com.legion1900.mvpplayer.platform.utils.db.TracksContract
 
 class SongProvider : ContentProvider() {
 
@@ -113,7 +113,7 @@ class SongProvider : ContentProvider() {
     }
 
     private companion object {
-        const val AUTHORITY = "com.legion1900.simpleplayer.provider"
+        const val AUTHORITY = "com.legion1900.mvpplayer.provider"
 
         const val GENRES = 1
         const val MUSICIANS = 2
@@ -124,19 +124,27 @@ class SongProvider : ContentProvider() {
         /*
         * Parts for building sorting queries.
         * */
-//        TODO: use string interpolation here
+//        TODO: use string interpolation with TracksContract
         const val QUERY_SELECTED_GENRE =
-            "SELECT Songs._id, Songs.name AS Alias0, Musicians.name AS Alias1, Songs.path as path, Genres.name as Alias2\n" +
-                    "FROM Songs\n" +
-                    "JOIN Musicians ON Songs.musicianID=Musicians._id\n" +
-                    "JOIN Genres ON Songs.genreID=Genres._id\n" +
+            "SELECT Songs._id, " +
+                    "Songs.name AS Alias0, " +
+                    "Musicians.name AS Alias1, " +
+                    "Songs.path as path, " +
+                    "Genres.name as Alias2" +
+                    "FROM Songs" +
+                    "JOIN Musicians ON Songs.musicianID=Musicians._id" +
+                    "JOIN Genres ON Songs.genreID=Genres._id" +
                     "WHERE Genres.name=?"
 
-        const val QUERY_SELECTED_MUSICIAN = (
-                "SELECT Songs._id, Songs.name AS Alias0, Musicians.name AS Alias1, Songs.path as path, Genres.name as Alias2\n" +
-                        "FROM Songs\n" +
-                        "JOIN Musicians ON Songs.musicianID=Musicians._id\n" +
-                        "JOIN Genres ON Songs.genreID=Genres._id\n" +
-                        "WHERE Musicians.name=?")
+        const val QUERY_SELECTED_MUSICIAN =
+            "SELECT Songs._id, " +
+                    "Songs.name AS Alias0, " +
+                    "Musicians.name AS Alias1, " +
+                    "Songs.path as path, " +
+                    "Genres.name as Alias2" +
+                    "FROM Songs" +
+                    "JOIN Musicians ON Songs.musicianID=Musicians._id" +
+                    "JOIN Genres ON Songs.genreID=Genres._id" +
+                    "WHERE Musicians.name=?"
     }
 }
