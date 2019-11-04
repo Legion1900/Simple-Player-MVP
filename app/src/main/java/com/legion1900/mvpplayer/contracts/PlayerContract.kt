@@ -21,7 +21,7 @@ object PlayerContract {
     interface ChooserView {
         var musicians: List<String>
         var genres: List<String>
-        var songs: List<ModelSongData>
+        fun displaySongs(songs: List<ModelSongData>)
         fun getRepository(): SongsRepository
         /*
         * Should contain platform-specific calls for broadcasting chosen song.
