@@ -1,11 +1,14 @@
 package com.legion1900.mvpplayer.presenters
 
 import com.legion1900.mvpplayer.contracts.PlayerContract
+import com.legion1900.mvpplayer.models.data.SongData
 
 class ChooserPresenter private constructor(override var view: PlayerContract.ChooserView) :
     PlayerContract.ChooserPresenter {
 
     private val repo = view.getRepository()
+
+    private lateinit var songs: List<PlayerContract.ModelSong>
 
     init {
         view.genres = repo.getGenres()
@@ -13,14 +16,17 @@ class ChooserPresenter private constructor(override var view: PlayerContract.Cho
     }
 
     override fun onGenreClick(genre: String) {
-        view.songs = repo.sortByGenre(genre)
+        songs = repo.sortByGenre(genre)
+        view.songs = SongData.readSongData(songs, PlayerContract.ModelSong::musician)
     }
 
     override fun onMusicianClick(musician: String) {
-        view.songs = repo.sortByMusician(musician)
+        songs = repo.sortByMusician(musician)
+        view.songs = SongData.readSongData(songs, PlayerContract.ModelSong::genre)
     }
 
-    override fun onSongClick(song: PlayerContract.ModelSong) {
+    override fun onSongClick(index: Int) {
+        val song = songs[index]
         view.sendSong(song)
         view.close()
     }
