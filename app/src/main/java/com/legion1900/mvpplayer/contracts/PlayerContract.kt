@@ -21,7 +21,7 @@ object PlayerContract {
     interface ChooserView {
         var musicians: List<String>
         var genres: List<String>
-        var songs: List<ModelSong>
+        var songs: List<ModelSongData>
         fun getRepository(): SongsRepository
         /*
         * Should contain platform-specific calls for broadcasting chosen song.
@@ -46,7 +46,7 @@ object PlayerContract {
         var view: ChooserView
         fun onGenreClick(genre: String)
         fun onMusicianClick(musician: String)
-        fun onSongClick(song: ModelSong)
+        fun onSongClick(index: Int)
     }
 
     interface ModelSong : Parcelable {
@@ -55,6 +55,11 @@ object PlayerContract {
         val genre: String
         val path: String
         var time: Int
+    }
+
+    interface ModelSongData {
+        val songName: String
+        val metadata: String
     }
 
     /*
