@@ -4,7 +4,7 @@ import com.legion1900.mvpplayer.contracts.PlayerContract
 import com.legion1900.mvpplayer.models.Song
 
 class PlayerPresenter private constructor(override var view: PlayerContract.PlayerView) :
-    PlayerContract.Presenter {
+    PlayerContract.PlayerPresenter {
 
     companion object {
         private const val DEFAULT_NAME = "The Chain"
@@ -14,9 +14,9 @@ class PlayerPresenter private constructor(override var view: PlayerContract.Play
             "android.resource://com.legion1900.mvpplayer/raw/fleetwood_mac_the_chain"
         val DEFAULT_SONG = Song(DEFAULT_NAME, DEFAULT_MUSICIAN, DEFAULT_GENRE, DEFAULT_PATH)
 
-        private var presenter: PlayerContract.Presenter? = null
+        private var presenter: PlayerContract.PlayerPresenter? = null
 
-        fun getPresenter(view: PlayerContract.PlayerView): PlayerContract.Presenter {
+        fun getPresenter(view: PlayerContract.PlayerView): PlayerContract.PlayerPresenter {
             if (presenter == null)
                 presenter = PlayerPresenter(view)
             else presenter?.view = view

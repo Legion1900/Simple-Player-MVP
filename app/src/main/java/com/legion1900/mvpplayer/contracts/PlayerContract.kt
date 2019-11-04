@@ -13,7 +13,7 @@ object PlayerContract {
         fun getRepository(): SongStateRepository
         /*
         * Platform-specific init calls should be placed here.
-        * Must set song property of Presenter.
+        * Must set song property of PlayerPresenter.
         * */
         fun initPlatform(song: ModelSong)
     }
@@ -21,17 +21,27 @@ object PlayerContract {
     interface ChooserView {
         var musicians: List<String>
         var genres: List<String>
-        var song: List<ModelSong>
+        var songs: List<ModelSong>
         fun getRepository(): SongsRepository
+        /*
+        * Should contain platform-dependent calls for broadcasting chosen song.
+        * */
+        fun choose(song: ModelSong)
     }
 
-    interface Presenter {
+    interface PlayerPresenter {
         var view: PlayerView
         var player: ModelPlayer
         fun onPlayBtnClick()
         fun onPauseBtnClick()
         fun onStopBtnClick()
         fun onSongChanged(song: ModelSong)
+    }
+
+    interface ChooserPresenter {
+        fun onGenreClick(genre: String)
+        fun onMusicianClick(musician: String)
+        fun onSongClick(song: String)
     }
 
     interface ModelSong : Parcelable {
@@ -51,7 +61,10 @@ object PlayerContract {
     }
 
     interface SongsRepository {
-//        TODO: think about signatures
+        fun getMusicians(): List<String>
+        fun getGenres(): List<String>
+        fun sortByMusician(musician: String): List<ModelSong>
+        fun sortByGenre(genre: String): List<ModelSong>
     }
 
     interface ModelPlayer {

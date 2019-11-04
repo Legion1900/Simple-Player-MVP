@@ -46,7 +46,7 @@ class PlayerActivity : AppCompatActivity(), PlayerContract.PlayerView {
     private lateinit var tvGenre: TextView
 
 
-    private lateinit var presenter: PlayerContract.Presenter
+    private lateinit var presenter: PlayerContract.PlayerPresenter
 
     private lateinit var playerIntent: Intent
     private val connection = object : ServiceConnection {
