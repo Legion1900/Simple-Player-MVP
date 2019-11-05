@@ -6,7 +6,6 @@ import android.net.Uri
 import com.legion1900.mvpplayer.contracts.PlayerContract
 import com.legion1900.mvpplayer.models.data.Song
 import com.legion1900.mvpplayer.platform.utils.db.TracksContract
-import java.util.*
 
 class SongsRepository(private val resolver: ContentResolver) : PlayerContract.SongsRepository {
 
@@ -20,13 +19,13 @@ class SongsRepository(private val resolver: ContentResolver) : PlayerContract.So
         val projection = arrayOf(column)
         val cursor = resolver.query(uri, projection, null, null, null)
         return cursor!!.use {
-                val colIndex = it.getColumnIndex(column)
-                val musicians = mutableListOf<String>()
-                while (it.moveToNext()) {
-                    musicians.add(it.getString(colIndex))
-                }
-                musicians
+            val colIndex = it.getColumnIndex(column)
+            val musicians = mutableListOf<String>()
+            while (it.moveToNext()) {
+                musicians.add(it.getString(colIndex))
             }
+            musicians
+        }
     }
 
     override fun sortByMusician(musician: String): List<PlayerContract.ModelSong> =

@@ -27,6 +27,7 @@ object PlayerContract {
         * Should contain platform-specific calls for broadcasting chosen song.
         * */
         fun sendSong(song: ModelSong)
+
         /*
         * Should perform platform-specific calls for closing this view.
         * */

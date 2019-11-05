@@ -6,7 +6,6 @@ import android.content.UriMatcher
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
-import android.util.Log
 import com.legion1900.mvpplayer.platform.utils.db.DbHelper
 import com.legion1900.mvpplayer.platform.utils.db.TracksContract
 
@@ -166,7 +165,6 @@ class SongProvider : ContentProvider() {
         /*
         * Parts for building sorting queries.
         * */
-//        TODO: use string interpolation with TracksContract
         const val QUERY_SELECTED_GENRE =
             "SELECT Songs._id, " +
                     "Songs.name AS Alias0, " +
