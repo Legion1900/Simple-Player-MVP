@@ -6,6 +6,7 @@ import android.content.UriMatcher
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
+import android.util.Log
 import com.legion1900.mvpplayer.platform.utils.db.DbHelper
 import com.legion1900.mvpplayer.platform.utils.db.TracksContract
 
@@ -49,7 +50,7 @@ class SongProvider : ContentProvider() {
             MUSICIANS -> getAllMusicians(columns, selection, selectionArgs)
             SONGS -> getAllSongs(columns, selection, selectionArgs)
             /*
-            * In this case projection content will be used to substitute Aliases in
+            * In this case projection ('columns') content will be used to substitute Aliases in
             * QUERY_SELECTED_GENRE or QUERY_SELECTED_MUSICIAN;
             * selectionArgs are used as usual - to substitute '?' in existing queries.
             * */
@@ -144,10 +145,11 @@ class SongProvider : ContentProvider() {
     }
 
     private fun buildSortingQuery(selection: String, aliases: Array<String>): String {
-        var out = ""
+        var out = selection
         val keyword = "Alias"
         for (i in aliases.indices) {
-            out = selection.replace((keyword + i).toRegex(), aliases[i])
+            val regex = (keyword + i).toRegex()
+            out = out.replace(regex, aliases[i])
         }
         return out
     }
@@ -170,10 +172,10 @@ class SongProvider : ContentProvider() {
                     "Songs.name AS Alias0, " +
                     "Musicians.name AS Alias1, " +
                     "Songs.path as path, " +
-                    "Genres.name as Alias2" +
-                    "FROM Songs" +
-                    "JOIN Musicians ON Songs.musicianID=Musicians._id" +
-                    "JOIN Genres ON Songs.genreID=Genres._id" +
+                    "Genres.name as Alias2 " +
+                    "FROM Songs " +
+                    "JOIN Musicians ON Songs.musicianID=Musicians._id " +
+                    "JOIN Genres ON Songs.genreID=Genres._id " +
                     "WHERE Genres.name=?"
 
         const val QUERY_SELECTED_MUSICIAN =
@@ -181,10 +183,10 @@ class SongProvider : ContentProvider() {
                     "Songs.name AS Alias0, " +
                     "Musicians.name AS Alias1, " +
                     "Songs.path as path, " +
-                    "Genres.name as Alias2" +
-                    "FROM Songs" +
-                    "JOIN Musicians ON Songs.musicianID=Musicians._id" +
-                    "JOIN Genres ON Songs.genreID=Genres._id" +
+                    "Genres.name as Alias2 " +
+                    "FROM Songs " +
+                    "JOIN Musicians ON Songs.musicianID=Musicians._id " +
+                    "JOIN Genres ON Songs.genreID=Genres._id " +
                     "WHERE Musicians.name=?"
     }
 }

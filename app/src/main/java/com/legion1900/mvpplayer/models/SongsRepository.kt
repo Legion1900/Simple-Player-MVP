@@ -3,7 +3,6 @@ package com.legion1900.mvpplayer.models
 import android.content.ContentResolver
 import android.database.Cursor
 import android.net.Uri
-import android.util.Log
 import com.legion1900.mvpplayer.contracts.PlayerContract
 import com.legion1900.mvpplayer.models.data.Song
 import com.legion1900.mvpplayer.platform.utils.db.TracksContract
