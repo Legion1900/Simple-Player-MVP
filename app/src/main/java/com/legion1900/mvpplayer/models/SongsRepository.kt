@@ -19,13 +19,8 @@ class SongsRepository(private val resolver: ContentResolver) : PlayerContract.So
 
     private fun getAllRows(uri: Uri, column: String): List<String> {
         val projection = arrayOf(column)
-//        TODO: null instead of Cursor
-
-        Log.d("Test", "uri=$uri")
-        Log.d("Test", "projection=${projection.contentToString()}")
-
         val cursor = resolver.query(uri, projection, null, null, null)
-        val test = cursor?.use {
+        return cursor!!.use {
                 val colIndex = it.getColumnIndex(column)
                 val musicians = mutableListOf<String>()
                 while (it.moveToNext()) {
@@ -33,7 +28,6 @@ class SongsRepository(private val resolver: ContentResolver) : PlayerContract.So
                 }
                 musicians
             }
-        return test!!
     }
 
     override fun sortByMusician(musician: String): List<PlayerContract.ModelSong> =

@@ -4,6 +4,7 @@ import android.content.ContentProvider
 import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
 import com.legion1900.mvpplayer.platform.utils.db.DbHelper
 import com.legion1900.mvpplayer.platform.utils.db.TracksContract
@@ -25,64 +26,102 @@ class SongProvider : ContentProvider() {
     }
 
     private lateinit var helper: DbHelper
+    /*
+    * As ContentProvider created within the hosting process it`s DB connections will be closed by
+    * system cleanup when needed. For correct usage of Cursor it returns DB connection MUST stay
+    * open.
+    * */
+    private var db: SQLiteDatabase? = null
 
     override fun onCreate(): Boolean {
         helper = DbHelper(context!!)
         return true
     }
 
-//    TODO: DO NOT CLOSE DATABASE UNTIL CURSOR ALIVE
     override fun query(
         uri: Uri, projection: Array<String>?, selection: String?,
         selectionArgs: Array<String>?, sortOrder: String?
     ): Cursor? {
-        /*
-        * We need cursor to have "_id" column to use in CursorLoader.
-        * */
-        val columns = if (projection != null) {
+        initDb()
+        val columns = buildProjection(projection)
+        return when (matcher.match(uri)) {
+            GENRES -> getAllGenres(columns, selection, selectionArgs)
+            MUSICIANS -> getAllMusicians(columns, selection, selectionArgs)
+            SONGS -> getAllSongs(columns, selection, selectionArgs)
+            /*
+            * In this case projection content will be used to substitute Aliases in
+            * QUERY_SELECTED_GENRE or QUERY_SELECTED_MUSICIAN;
+            * selectionArgs are used as usual - to substitute '?' in existing queries.
+            * */
+            SONGS_FOR_GENRE -> {
+                getSongsBy(QUERY_SELECTED_GENRE, columns, selectionArgs)
+            }
+            SONGS_FOR_MUSICIAN -> {
+                getSongsBy(QUERY_SELECTED_MUSICIAN, columns, selectionArgs)
+            }
+            else -> throw IllegalArgumentException("Unknown Uri")
+        }
+    }
+
+    /*
+    * Adds _id column to array of user-requested columns.
+    * projection may be null.
+    * */
+    private fun buildProjection(projection: Array<String>?): Array<String> {
+        return if (projection != null) {
             val tmp = Array(projection.size + 1) {
                 if (it < projection.size) projection[it] else TracksContract.COLUMN_ID
             }
             tmp[tmp.lastIndex] = TracksContract.COLUMN_ID
             tmp
         } else arrayOf(TracksContract.COLUMN_ID)
+    }
 
-        helper.readableDatabase.use {
-            when (matcher.match(uri)) {
-                GENRES -> return it.query(
-                    TracksContract.Genres.TABLE_NAME,
-                    columns, // Columns to return
-                    selection, // WHERE clause without WHERE itself: column1>?
-                    selectionArgs, null, null, null // values to substitute ? in where
-                )
-                MUSICIANS -> return it.query(
-                    TracksContract.Musicians.TABLE_NAME,
-                    columns, // Columns to return
-                    selection, // WHERE clause without WHERE itself: column1>?
-                    selectionArgs, null, null, null
-                )// values to substitute ? in where
-                SONGS -> return it.query(
-                    TracksContract.Songs.TABLE_NAME,
-                    columns,
-                    selection,
-                    selectionArgs, null, null, null
-                )
-                SONGS_FOR_GENRE -> {
-                    /*
-                    * In this case projection content will be used to substitute Aliases in
-                    * QUERY_SELECTED_GENRE or QUERY_SELECTED_MUSICIAN;
-                    * selectionArgs are used as usual - to substitute '?' in existing queries.
-                    * */
-                    val queryGenre = buildSortingQuery(QUERY_SELECTED_GENRE, columns)
-                    return it.rawQuery(queryGenre, selectionArgs)
-                }
-                SONGS_FOR_MUSICIAN -> {
-                    val queryMusician = buildSortingQuery(QUERY_SELECTED_MUSICIAN, columns)
-                    return it.rawQuery(queryMusician, selectionArgs)
-                }
-                else -> throw IllegalArgumentException("Unknown Uri")
-            }
-        }
+    private fun getAllGenres(
+        projection: Array<String>?,
+        selection: String?,
+        selectionArgs: Array<String>?
+    ): Cursor? = db?.query(
+        TracksContract.Genres.TABLE_NAME,
+        projection, // Columns to return
+        selection, // WHERE clause without WHERE itself: column1>?
+        selectionArgs, null, null, null // values to substitute ? in where
+    )
+
+    private fun getAllMusicians(
+        projection: Array<String>?,
+        selection: String?,
+        selectionArgs: Array<String>?
+    ): Cursor? = db?.query(
+        TracksContract.Musicians.TABLE_NAME,
+        projection, // Columns to return
+        selection, // WHERE clause without WHERE itself: column1>?
+        selectionArgs, null, null, null // values to substitute ? in where
+    )
+
+    private fun getAllSongs(
+        projection: Array<String>?,
+        selection: String?,
+        selectionArgs: Array<String>?
+    ): Cursor? = db?.query(
+        TracksContract.Songs.TABLE_NAME,
+        projection,
+        selection,
+        selectionArgs, null, null, null
+    )
+
+    private fun getSongsBy(
+        rawQuery: String,
+        projection: Array<String>,
+        selectionArgs: Array<String>?
+    ): Cursor? {
+        val query = buildSortingQuery(rawQuery, projection)
+        return db?.rawQuery(query, selectionArgs)
+    }
+
+    private fun initDb() {
+        if (db == null)
+            db = helper.readableDatabase
     }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
