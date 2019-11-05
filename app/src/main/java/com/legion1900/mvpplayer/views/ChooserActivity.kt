@@ -12,6 +12,7 @@ import com.legion1900.mvpplayer.contracts.PlayerContract
 import com.legion1900.mvpplayer.models.SongsRepository
 import com.legion1900.mvpplayer.presenters.ChooserPresenter
 import com.legion1900.mvpplayer.views.adapters.SongsAdapter
+import com.legion1900.mvpplayer.views.listeners.ItemSelectedListener
 
 class ChooserActivity : AppCompatActivity(), PlayerContract.ChooserView {
     override lateinit var musicians: List<String>
@@ -34,8 +35,16 @@ class ChooserActivity : AppCompatActivity(), PlayerContract.ChooserView {
         presenter = ChooserPresenter.presenterFor(this)
         findViews()
         initRecyclerView()
-        initSpinner(spinnerMusicians, PlayerContract.ChooserView::musicians)
-        initSpinner(spinnerGenres, PlayerContract.ChooserView::genres)
+        initSpinner(
+            spinnerMusicians,
+            PlayerContract.ChooserView::musicians,
+            PlayerContract.ChooserPresenter::onMusicianClick
+        )
+        initSpinner(
+            spinnerGenres,
+            PlayerContract.ChooserView::genres,
+            PlayerContract.ChooserPresenter::onGenreClick
+        )
     }
 
     private fun findViews() {
@@ -52,10 +61,15 @@ class ChooserActivity : AppCompatActivity(), PlayerContract.ChooserView {
     /*
     * prop - property that provide data.
     * */
-    private fun initSpinner(spinner: Spinner, prop: PlayerContract.ChooserView.() -> List<String>) {
+    private fun initSpinner(
+        spinner: Spinner,
+        prop: PlayerContract.ChooserView.() -> List<String>,
+        onEvent: PlayerContract.ChooserPresenter.(String) -> Unit
+    ) {
         val adapter = ArrayAdapter<String>(this, R.layout.spinner_item, prop())
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
+        spinner.onItemSelectedListener = ItemSelectedListener(presenter, onEvent)
     }
 
     override fun displaySongs(songs: List<PlayerContract.ModelSongData>) {
